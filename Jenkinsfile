@@ -3,7 +3,7 @@ pipeline{
     agent any
 // uncomment the following lines by removing /* and */ to enable
    tools{
-       maven 'Maven 3.9.6' 
+       maven '3.9.6' 
     }   
 
     stages{
