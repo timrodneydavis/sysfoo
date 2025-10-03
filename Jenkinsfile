@@ -18,14 +18,17 @@ pipeline {
     stage('Package') {
       steps {
         echo 'this is the third job'
-        sh '''# Truncate the GIT_COMMIT to the first 7 characters
-GIT_SHORT_COMMIT=${echo $GIT_COMMIT | cut -c 1-7}
+      sh '''# Truncate the GIT_COMMIT to the first 7 characters
+GIT_SHORT_COMMIT=$(echo $GIT_COMMIT | cut -c 1-7)
 
 # set the version using maven
-mvn versions:set-DnewVersion="$GIT_SHORT_COMMIT"
-mvn versions:commit'''
-        sh 'mvn package -DskipTests'
-        archiveArtifacts '**/target*/jar'
+mvn versions:set -DnewVersion=$GIT_SHORT_COMMIT
+mvn versions:commit
+'''
+
+sh 'mvn package -DskipTests'
+archiveArtifacts '**/target/*.jar'
+
       }
     }
 
